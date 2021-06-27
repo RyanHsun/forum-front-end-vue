@@ -25,9 +25,27 @@
             </li>
           </ul>
           <template v-if="isCurrentUser">
-            <form action="/following/1" method="POST" style="display: contents;">
-              <button type="submit" class="btn btn-primary">追蹤</button>
-            </form>
+            <a href="/users/51/edit">
+              <button type="submit" class="btn btn-primary">edit</button>
+            </a>
+          </template>
+          <template v-else>
+            <button 
+              v-if="isFollowed"
+              type="submit" 
+              class="btn btn-danger"
+              @click.prevent.stop="deleteFollowing"
+            >
+              取消追蹤
+            </button>
+            <button 
+              v-else
+              type="submit" 
+              class="btn btn-primary"
+              @click.prevent.stop="addFollowing"
+            >
+              追蹤
+            </button>
           </template>
         </div>
       </div>
@@ -45,6 +63,23 @@ export default {
     isCurrentUser: {
       type: Boolean,
       required: true
+    },
+    initialIsFollowed: {
+      type: Boolean,
+      required: true
+    }
+  },
+  data () {
+    return {
+      isFollowed: this.initialIsFollowed
+    }
+  },
+  methods: {
+    addFollowing () {
+      this.isFollowed = true
+    },
+    deleteFollowing () {
+      this.isFollowed = false
     }
   }
 }
