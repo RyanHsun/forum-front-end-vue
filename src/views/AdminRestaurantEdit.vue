@@ -19,16 +19,7 @@ const dummyData = {
     'opening_hours': '08:00',
     'description': 'sit est mollitia',
     'image': 'https://loremflickr.com/320/240/restaurant,food/?random=91.29816290184887',
-    'viewCounts': 1,
-    'createdAt': '2019-07-30T16:24:55.432Z',
-    'updatedAt': '2019-07-30T17:26:43.260Z',
     'CategoryId': 3,
-    'Category': {
-      'id': 3,
-      'name': '義大利料理',
-      'createdAt': '2019-07-30T16:24:55.429Z',
-      'updatedAt': '2019-07-30T16:24:55.429Z'
-    }
   }
 }
 
