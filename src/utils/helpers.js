@@ -13,8 +13,3 @@ export const Toast = Swal.mixin({
   showConfirmButton: false,
   timer: 3000
 })
-
-Toast.fire({
-  icon: 'success',
-  title: 'Signed in successfully'
-})
