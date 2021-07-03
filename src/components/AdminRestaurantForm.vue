@@ -110,8 +110,9 @@
     <button
       type="submit"
       class="btn btn-primary"
+      :disabled="isProcessing"
     >
-      送出
+      {{ isProcessing ? "處理中..." : "送出" }}
     </button>
   </form>
 </template>
@@ -135,6 +136,10 @@ export default {
           CategoryId: ''
         }
       }
+    },
+    isProcessing: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -182,7 +187,19 @@ export default {
       }
     },
     handleSubmit (e) {
-      console.log('e', e)
+    if (!this.restaurant.name) {
+        Toast.fire({
+          icon: 'warning',
+          title: '請填寫餐廳名稱'
+        })
+        return
+      } else if (!this.restaurant.categoryId) {
+        Toast.fire({
+          icon: 'warning',
+          title: '請選擇餐廳類別'
+        })
+        return
+      }
       const form = e.target
       const formData = new FormData(form)
       this.$emit('after-submit', formData)
