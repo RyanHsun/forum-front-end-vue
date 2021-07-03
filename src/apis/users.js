@@ -21,5 +21,10 @@ export default {
     return apiHelper.delete(`/like/${restaurantId}`, {
       headers: { Authorization: `Bearer ${getToken()}` }
     })
+  },
+  getTopUsers () {
+    return apiHelper.get('/users/top', {
+      headers: { Authorization: `Bearer ${getToken()}` }
+    })
   }
 }
