@@ -38,6 +38,7 @@
 
       <button
         class="btn btn-lg btn-primary btn-block mb-3 w-100"
+        :disabled="isProcessing"
         type="submit"
       >
         Submit
@@ -66,7 +67,8 @@ export default {
   data () {
     return {
       email: '',
-      password: ''
+      password: '',
+      isProcessing: false
     }
   },
   methods : {
@@ -79,6 +81,8 @@ export default {
         })
         return
       }
+
+      this.isProcessing = true
 
       authorizationAPI.signIn({
         email: this.email,
@@ -96,6 +100,7 @@ export default {
         // 成功登入後轉址到餐廳首頁
         this.$router.push('/restaurants')
       }).catch(error => {
+        this.isProcessing = false
         this.password = ''
         Toast.fire({
           icon: 'warning',
