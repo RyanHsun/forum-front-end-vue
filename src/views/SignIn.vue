@@ -70,13 +70,17 @@ export default {
   },
   methods : {
     handleSubmit () {
-      console.log('OK')
       authorizationAPI.signIn({
         email: this.email,
         password: this.password
       }).then(response => {
         // TODO: 取得 API 請求後的資料
-        console.log('response', response)
+        const { data } = response
+        // 將 token 存放在 localStorage 內
+        localStorage.setItem('token', data.token)
+
+        // 成功登入後轉址到餐廳首頁
+        this.$router.push('/restaurants')
       })
     }
   }
