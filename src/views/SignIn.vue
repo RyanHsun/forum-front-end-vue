@@ -72,22 +72,25 @@ export default {
     }
   },
   methods : {
-    handleSubmit () {
+    async handleSubmit () {
+      try {
+        if (!this.email || !this.password) {
+          Toast.fire({
+            icon: 'warning',
+            title: '請填入 email 和 password'
+          })
+          return
+        }
 
-      if (!this.email || !this.password) {
-        Toast.fire({
-          icon: 'warning',
-          title: '請填入 email 和 password'
+        this.isProcessing = true
+        
+        // 使用 authorizationAPI 的 signIn 方法
+        // 並且帶入使用者填寫的 email 和 password
+        const response = await authorizationAPI.signIn({
+          email: this.email,
+          password: this.password
         })
-        return
-      }
 
-      this.isProcessing = true
-
-      authorizationAPI.signIn({
-        email: this.email,
-        password: this.password
-      }).then(response => {
         // TODO: 取得 API 請求後的資料
         const { data } = response
 
@@ -99,15 +102,16 @@ export default {
 
         // 成功登入後轉址到餐廳首頁
         this.$router.push('/restaurants')
-      }).catch(error => {
-        this.isProcessing = false
+      } catch (error) {
         this.password = ''
+        this.isProcessing = false
+
         Toast.fire({
           icon: 'warning',
           title: '輸入的密碼有誤',
         })
-        console.log('error', error)
-      })
+      }
+
     }
   }
 }
