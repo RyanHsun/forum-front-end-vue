@@ -3,7 +3,7 @@
     <div class="row no-gutters">
       <div class="col-md-4">
           <img 
-            :src="user.image || emptyImage" 
+            :src="user.image | emptyImage" 
             width="300px" 
             height="300px"
           >
@@ -40,7 +40,7 @@
               v-if="isFollowed"
               type="submit" 
               class="btn btn-danger"
-              @click.prevent.stop="deleteFollowing"
+              @click.prevent.stop="deleteFollowing(user.id)"
             >
               取消追蹤
             </button>
@@ -48,7 +48,7 @@
               v-else
               type="submit" 
               class="btn btn-primary"
-              @click.prevent.stop="addFollowing"
+              @click.prevent.stop="addFollowing(user.id)"
             >
               追蹤
             </button>
@@ -61,6 +61,8 @@
 
 <script>
 import { emptyImageFilter } from './../utils/mixins'
+import usersAPI from './../apis/users'
+import { Toast } from './../utils/helpers'
 
 export default {
   mixins: [emptyImageFilter],
@@ -83,12 +85,47 @@ export default {
       isFollowed: this.initialIsFollowed
     }
   },
+  watch: {
+    initialIsFollowed (isFollowed) {
+      this.isFollowed = isFollowed
+    }
+  },
   methods: {
-    addFollowing () {
-      this.isFollowed = true
+    async addFollowing (userId) {
+      try {
+        const { data } = await usersAPI.addFollowing({ userId })
+        
+        if(data.status === 'error') {
+          throw new Error(data.message)
+        }
+
+        this.isFollowed = true
+
+      } catch (error) {
+        console.error(error.message)
+        Toast.fire({
+          icon: 'error',
+          title: '無法加入追蹤，請稍後再試'
+        })
+      }
     },
-    deleteFollowing () {
-      this.isFollowed = false
+    async deleteFollowing (userId) {
+      try {
+        const { data } = await usersAPI.deleteFollowing({ userId })
+        
+        if(data.status === 'error') {
+          throw new Error(data.message)
+        }
+
+        this.isFollowed = false
+
+      } catch (error) {
+        console.error(error.message)
+        Toast.fire({
+          icon: 'error',
+          title: '無法取消追蹤，請稍後再試'
+        })
+      }
     }
   }
 }
