@@ -9,6 +9,9 @@
   color: #4d4d4d;
   outline: none;
 }
+html {
+  overflow-y: scroll;
+}
 
 a {
   color: #bd2333;
