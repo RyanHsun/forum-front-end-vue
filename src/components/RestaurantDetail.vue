@@ -9,7 +9,7 @@
     <div class="col-lg-4">
       <img
         class="img-responsive center-block" 
-        :src="restaurant.image || emptyImage"
+        :src="restaurant.image | emptyImage"
         style="width: 250px;margin-bottom: 25px;"
       >
       <div class="contact-info-wrap">
@@ -86,6 +86,14 @@ export default {
   data () {
     return {
       restaurant: this.initialRestaurant
+    }
+  },
+  watch: {
+    initialRestaurant (newValue) {
+      this.restaurant = {
+        ...this.restaurant,
+        ...newValue
+      }
     }
   },
   methods: {
