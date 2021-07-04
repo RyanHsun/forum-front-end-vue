@@ -10,7 +10,7 @@
           :to="{name: 'user', params: { id: following.id }}"
         >
             <img 
-              :src="following.image || emptyImage" 
+              :src="following.image | emptyImage" 
               width="60" 
               height="60" 
               class="avatar"

@@ -9,7 +9,7 @@
           :key="favoritedRestaurant.id" 
           :to="{ name: 'restaurant', params: { id: favoritedRestaurant.id }}">
             <img 
-              :src="favoritedRestaurant.image || emptyImage" 
+              :src="favoritedRestaurant.image | emptyImage" 
               width="60"
               height="60" 
               class="avatar"
