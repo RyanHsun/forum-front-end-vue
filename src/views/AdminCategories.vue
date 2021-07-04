@@ -25,6 +25,7 @@
         </div>
       </div>
     </form>
+    <Spinner v-if="isLoading" />
     <table class="table">
       <thead class="thead-dark">
         <tr>
@@ -109,16 +110,19 @@
 import AdminNav from '@/components/AdminNav'
 import adminAPI from './../apis/admin'
 import { Toast } from './../utils/helpers'
+import Spinner from './../components/Spinner'
 
 export default {
   components: {
-    AdminNav
+    AdminNav,
+    Spinner
   },
   data () {
     return {
       newCategoryName: '',
       categories: [],
-      isProcessing: false
+      isProcessing: false,
+      isLoading: true
     }
   },
   created () {
@@ -138,7 +142,9 @@ export default {
           isEditing: false,
           nameCached: ''
         }))
+        this.isLoading = false
       } catch (error) {
+        this.isLoading = false
         console.error(error.message)
         Toast.fire({
           icon: 'error',

@@ -80,80 +80,102 @@ export default {
     };
   },
   methods: {
-    async addFavorite(restaurantId) {
+    async addFavorite (restaurantId) {
       try {
-        const { data } = await usersAPI.addFavorite({ restaurantId });
-        if (data.status !== "success") {
-          throw new Error(data.message);
+        this.isProcessing = true
+        const { data, statusText } = await usersAPI.addFavorite({
+          restaurantId
+        })
+
+        if (statusText !== 'OK' || data.status !== 'success') {
+          throw new Error(statusText)
         }
+
         this.restaurant = {
           ...this.restaurant,
-          isFavorited: true,
-        };
+          isFavorited: true
+        }
+        this.isProcessing = false
       } catch (error) {
+        this.isProcessing = false
         Toast.fire({
-          icon: "error",
-          title: "無法將餐廳加入最愛，請稍後再試",
-        });
-        console.log("error", error);
+          icon: 'error',
+          title: '無法將餐廳加入最愛，請稍後再試'
+        })
       }
     },
-    async deleteFavorite(restaurantId) {
+    async deleteFavorite (restaurantId) {
       try {
-        const { data } = await usersAPI.deleteFavorite({ restaurantId });
-        if (data.status !== "success") {
-          throw new Error(data.message);
+        this.isProcessing = true
+        const { data, statusText } = await usersAPI.deleteFavorite({
+          restaurantId
+        })
+
+        if (statusText !== 'OK' || data.status !== 'success') {
+          throw new Error(statusText)
         }
+
         this.restaurant = {
           ...this.restaurant,
-          isFavorited: false,
-        };
+          isFavorited: false
+        }
+        this.isProcessing = false
       } catch (error) {
+        this.isProcessing = false
         Toast.fire({
-          icon: "error",
-          title: "無法將餐廳移除最愛，請稍後再試",
-        });
-        console.log("error", error);
+          icon: 'error',
+          title: '無法將餐廳從最愛移除，請稍後再試'
+        })
       }
     },
-    async addLike(restaurantId) {
+    async addLike (restaurantId) {
       try {
-        const { data } = await usersAPI.addLike({ restaurantId });
-        if (data.status !== "success") {
-          throw new Error(data.message);
+        this.isProcessing = true
+        const { data, statusText } = await usersAPI.addLike({ restaurantId })
+
+        if (statusText !== 'OK' || data.status !== 'success') {
+          throw new Error(statusText)
         }
+
         this.restaurant = {
           ...this.restaurant,
-          isLiked: true,
-        };
+          isLiked: true
+        }
+        this.isProcessing = false
       } catch (error) {
+        this.isProcessing = false
         Toast.fire({
-          icon: "error",
-          title: "無法將餐廳按讚，請稍後再試",
-        });
-        console.log("error", error);
+          icon: 'error',
+          title: '無法按讚，請稍後再試'
+        })
       }
     },
-    async deleteLike(restaurantId) {
+    async deleteLike (restaurantId) {
       try {
-        const { data } = await usersAPI.deleteLike({ restaurantId });
-        if (data.status !== "success") {
-          throw new Error(data.message);
+        this.isProcessing = true
+        const { data, statusText } = await usersAPI.deleteLike({
+          restaurantId
+        })
+
+        if (statusText !== 'OK' || data.status !== 'success') {
+          throw new Error(statusText)
         }
+
         this.restaurant = {
           ...this.restaurant,
-          isLiked: false,
-        };
+          isLiked: false
+        }
+        this.isProcessing = false
       } catch (error) {
+        this.isProcessing = false
         Toast.fire({
-          icon: "error",
-          title: "無法將餐廳取消讚，請稍後再試",
-        });
-        console.log("error", error);
+          icon: 'error',
+          title: '無法取消按讚，請稍後再試'
+        })
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style scoped>
