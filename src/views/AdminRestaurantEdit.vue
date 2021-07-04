@@ -9,19 +9,8 @@
 
 <script>
 import AdminRestaurantForm from '../components/AdminRestaurantForm.vue'
-
-const dummyData = {
-  'restaurant': {
-    'id': 1,
-    'name': 'Laurence Reynolds',
-    'tel': '1-657-067-3756 x9782',
-    'address': '187 Kirlin Squares',
-    'opening_hours': '08:00',
-    'description': 'sit est mollitia',
-    'image': 'https://loremflickr.com/320/240/restaurant,food/?random=91.29816290184887',
-    'CategoryId': 3,
-  }
-}
+import adminAPI from './../apis/admin'
+import { Toast } from './../utils/helpers'
 
 export default {
   components: {
@@ -52,30 +41,36 @@ export default {
         console.log(name + ': ' + value)
       }
     },
-    fetchRestaurant (restaurantId) {
-      console.log('fetchRestaurant id:', restaurantId)
-      const { restaurant } = dummyData
-      const { 
-        id,
-        name,
-        CategoryId: categoryId,
-        tel,
-        address,
-        description,
-        image,
-        opening_hours: openingHours 
-      } = restaurant
+    async fetchRestaurant (restaurantId) {
+      try {
+        const { data } = await adminAPI.restaurants.getDetail({ restaurantId })
+          const { 
+          id,
+          name,
+          CategoryId: categoryId,
+          tel,
+          address,
+          description,
+          image,
+          opening_hours: openingHours 
+        } = data.restaurant
 
-      this.restaurant = {
-        ...this.restaurant,
-        id,
-        name,
-        categoryId,
-        tel,
-        address,
-        description,
-        image,
-        openingHours
+        this.restaurant = {
+          ...this.restaurant,
+          id,
+          name,
+          categoryId,
+          tel,
+          address,
+          description,
+          image,
+          openingHours
+        }
+      } catch (error) {
+        Toast.fire({  
+          icon: 'error',
+          title: '無法取得餐廳資料，請稍後再試'
+        })
       }
     }
   }
